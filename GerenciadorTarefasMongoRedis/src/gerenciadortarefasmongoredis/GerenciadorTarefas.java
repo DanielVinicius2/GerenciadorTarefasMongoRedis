@@ -12,7 +12,7 @@ public class GerenciadorTarefas {
     private static final Scanner scanner = new Scanner(System.in);
     private static MongoCollection<Document> gerenciador_tarefas;
 
-    // 🔹 Conexão com o Redis
+    // Conexão com o Redis
     private static Jedis redis;
 
     public static void main(String[] args) {
@@ -108,7 +108,7 @@ private static void conectarRedis() {
     private static void listarTarefas() {
         System.out.println("\n=== Lista de Tarefas ===");
 
-        // 🔹 Verifica se existe cache
+        // Verifica se existe cache
         if (redis.exists("tarefas_cache")) {
             System.out.println("(Usando cache do Redis)");
             System.out.println(redis.get("tarefas_cache"));
@@ -124,7 +124,7 @@ private static void conectarRedis() {
               .append("--------------------------\n");
         }
 
-        // 🔹 Armazena no Redis por 60 segundos
+        // Armazena no Redis por 60 segundos
         redis.setex("tarefas_cache",3600,sb.toString());
 
         System.out.println(sb);
@@ -134,7 +134,7 @@ private static void conectarRedis() {
         System.out.print("\nDigite o titulo da tarefa: ");
         String termo = scanner.nextLine();
 
-        // 🔹 Tenta buscar no cache primeiro
+        // Tenta buscar no cache primeiro
         String cacheKey = "tarefa_" + termo.toLowerCase();
         if (redis.exists(cacheKey)) {
             System.out.println("(Usando cache do Redis)");
@@ -206,4 +206,5 @@ private static void conectarRedis() {
         System.out.println("🧹 Cache Redis limpo com sucesso!");
     }
 }
+
 
